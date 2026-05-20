@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Entrenamiento | Permits City</title>
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); }
+        .card-hover { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        /* CORREGIDO: Se cambió 'shadow:' por 'box-shadow:' */
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+        .fade-in { animation: fadeIn 0.6s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased min-h-screen">
+
+    <!-- Header -->
+    <header class="gradient-bg text-white py-16 px-6 shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-blue-400/10 rounded-full -mr-48 -mt-48 blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/10 rounded-full -ml-32 -mb-32 blur-3xl"></div>
+        
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between relative z-10">
+            <div class="text-center md:text-left mb-10 md:mb-0">
+                <div class="flex items-center justify-center md:justify-start gap-4 mb-6 group cursor-default">
+                    <div class="w-16 h-16 bg-white/10 backdrop-blur-lg border border-white/30 rounded-2xl flex items-center justify-center shadow-inner group-hover:rotate-6 transition-transform duration-500">
+                        <svg class="w-10 h-10 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold tracking-tight leading-none">Permits City</h2>
+                        <span class="text-blue-300 text-xs font-semibold uppercase tracking-[0.2em]">Excellence in Permits</span>
+                    </div>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-blue-200">
+                    Portal de Entrenamiento
+                </h1>
+                <p class="text-blue-100 text-lg md:text-xl font-light max-w-xl mx-auto md:mx-0 opacity-90 leading-relaxed">
+                    Recursos estratégicos para la gestión eficiente de licencias y permisos urbanos.
+                </p>
+            </div>
+            
+            <div class="w-full md:w-auto">
+                <div class="relative group mb-6">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="w-5 h-5 text-blue-300 group-focus-within:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="search-input"
+                        placeholder="Buscar recurso..." 
+                        class="w-full md:w-80 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl py-4 pl-12 pr-6 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 transition-all shadow-lg"
+                    >
+                </div>
+                <!-- Mini Stats -->
+                <div class="flex justify-center md:justify-end gap-8 text-xs text-blue-200 uppercase tracking-widest font-semibold opacity-70">
+                    <div class="flex flex-col items-center md:items-end">
+                        <span id="total-resources" class="text-lg text-white font-bold tracking-normal leading-none mb-1">0</span>
+                        <span>Recursos</span>
+                    </div>
+                    <div class="flex flex-col items-center md:items-end">
+                        <span class="text-lg text-white font-bold tracking-normal leading-none mb-1">3</span>
+                        <span>Módulos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Etiqueta de Audio Con Enlace Directo de Drive -->
+    <audio id="mensaje-bienvenida" autoplay preload="auto">
+        <source src="https://www.dropbox.com/scl/fi/hbpjfy5h1ip6cds1zou8z/Bienvenida.mp3?rlkey=ofdm1k2ge6cir9o3w2sx8n5bt&st=n5dc4lf3&raw=1" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-6 -mt-10 mb-20 space-y-16" id="content-container">
+        <!-- Dashboard content will be injected here -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 pt-10 pb-20 border-t border-slate-200 text-center">
+        <p class="text-slate-500 text-sm">&copy; 2026 Permits City · Diseñado por Luis Gomez</p>
+        <div class="flex justify-center gap-6 mt-4">
+            <span class="text-slate-400 hover:text-blue-600 transition-colors px-3 py-1 cursor-pointer">Términos</span>
+            <span class="text-slate-400 hover:text-blue-600 transition-colors px-3 py-1 cursor-pointer">Soporte</span>
+        </div>
+    </footer>
+
+    <script>
+        const resources = [
+            { title: "Introducción a la Empresa", url: "https://drive.google.com/file/d/1w1GOBtLwmpOuLFBTjoVhhDzqxrj8X_ih/view?usp=drive_link", category: "Fundamentos", desc: "Nuestra visión, misión y lo que hacemos como Permits City." },
+            { title: "Glosario de Términos", url: "https://drive.google.com/file/d/1Qvi8MQG6-7AOOpey_bldD_vnA7_qXKYC/view?usp=drive_link", category: "Fundamentos", desc: "Diccionario esencial de terminología técnica de permisos." },
+            { title: "True People Search", url: "https://drive.google.com/file/d/1jcDLdOCThCCXqLjlnJ_ayZYGO7O03Gdb/view?usp=drive_link", category: "Herramientas", desc: "Guía para la verificación de identidad de propietarios." },
+            { title: "Property Appraiser", url: "https://www.canva.com/design/DAGF3mDlBMc/5UBq1ODGQmYtAGjNCuM2hA/view?utm_content=DAGF3mDlBMc&utm_campaign=designshare&utm_medium=link&utm_source=viewer", category: "Herrmientas", desc: "Uso de herramientas de valoración y datos de propiedad." },
+            { title: "Sunbiz", url: "https://www.canva.com/design/DAGF4l_CodY/JR9O1bO-MGdWuu2CpBkGCA/view?presentation", category: "Tools", desc: "Búsqueda de registros comerciales e información corporativa." },
+            { title: "Casos Zoho CRM", url: "https://drive.google.com/file/d/1q5QlZwv7yrwrspEPL7di1gtHeXG3rnoo/view?usp=drive_link", category: "Tools", desc: "Gestión óptima del flujo de trabajo en CRM." },
+            { title: "Permit Application", url: "https://drive.google.com/file/d/1ei9J3QWmKoNyNbnZfqmLKvvKxIlFiTpN/view?usp=drive_link", category: "Operaciones", desc: "Instrucciones detalladas para el llenado de aplicaciones." },
+            { title: "NOC: Llenado", url: "https://drive.google.com/file/d/1IPK3mje3IZ6Lh08eaHUsj5osdFA35aX0/view?usp=drive_link", category: "Operaciones", desc: "Cómo completar el Notice of Commencement correctamente." },
+            { title: "NOC: Sometimiento", url: "https://drive.google.com/file/d/1jDyndl-ItUC95URlV1HfxLTv_4jIHAaP/view?usp=drive_link", category: "Operaciones", desc: "Proceso legal de registro del NOC en la corte." },
+            { title: "Gestión de Violaciones", url: "https://drive.google.com/file/d/1vwQV4xQGhrdQBdUFrjZF86ftxU90mctO/view?usp=drive_link", category: "Operaciones", desc: "Búsqueda y resolución de violaciones técnicas." },
+            { title: "Búsqueda de Permisos", url: "https://drive.google.com/file/d/1iiqunQThZEv0FHTpVxBJ81MCS5SlSAJo/view?usp=drive_link", category: "Operaciones", desc: "Rastreo de historial y estado de permisos activos." },
+            { title: "AUTOCAD: Operativa", url: "https://drive.google.com/file/d/1FlRdzSR8gIdWGY-SayaSj_EoQcXd--R5/view?usp=drive_link", category: "Operaciones", desc: "Guía práctica para el manejo de planos y diseños." },
+            { title: "Protocolo de Llamadas", url: "https://drive.google.com/file/d/1di8-4-QQhEqfvcR8Fgna2f066h6l0VO2/view?usp=drive_link", category: "Operaciones", desc: "Estrategias de comunicación efectiva con clientes." }
+        ];
+
+        const container = document.getElementById('content-container');
+        const searchInput = document.getElementById('search-input');
+        const totalResourcesEl = document.getElementById('total-resources');
+        const categories = ["Fundamentos", "Herramientas", "Operaciones"];
+
+        function renderResources(filter = "") {
+            container.innerHTML = "";
+            let count = 0;
+            
+            categories.forEach(cat => {
+                const filtered = resources.filter(r => 
+                    r.category === cat && 
+                    (r.title.toLowerCase().includes(filter.toLowerCase()) || r.desc.toLowerCase().includes(filter.toLowerCase()))
+                );
+
+                if (filtered.length > 0) {
+                    count += filtered.length;
+                    const section = document.createElement('section');
+                    section.className = "fade-in";
+                    section.innerHTML = `
+                        <div class="flex items-center gap-4 mb-10">
+                            <div class="bg-slate-900 px-6 py-2.5 rounded-2xl shadow-xl shadow-slate-200/60 transition-transform hover:scale-105 duration-300">
+                                <h2 class="text-sm font-extrabold text-white tracking-widest uppercase">${cat}</h2>
+                            </div>
+                            <div class="h-px flex-1 bg-slate-200"></div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            ${filtered.map(r => `
+                                <a href="${r.url}" target="_blank" class="card-hover group block bg-white rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-300 border border-slate-100 hover:border-blue-200">
+                                    <div class="flex items-start justify-between mb-6">
+                                        <div class="p-4 bg-slate-50 rounded-2xl group-hover:bg-blue-50 transition-colors text-slate-600 group-hover:text-blue-600">
+                                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                        </div>
+                                        <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-slate-100 px-3 py-1 rounded-full">URL</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-700 transition-colors">${r.title}</h3>
+                                    <p class="text-sm text-slate-500 leading-relaxed min-h-[48px]">${r.desc}</p>
+                                    <div class="mt-8 pt-6 border-t border-slate-50 flex items-center justify-between text-blue-600 font-bold text-sm">
+                                        <span>Explorar</span>
+                                        <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                        </div>
+                                    </div>
+                                </a>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(section);
+                }
+            });
+
+            if (count === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-200">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-slate-50 text-slate-300 mb-6 font-light">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-2">Sin coincidencias</h3>
+                        <p class="text-slate-500 max-w-xs mx-auto">No pudimos encontrar el recurso que buscas. Prueba con palabras clave generales.</p>
+                        <button onclick="searchInput.value=''; renderResources();" class="mt-8 text-blue-600 font-bold hover:underline">Limpiar búsqueda</button>
+                    </div>
+                `;
+            }
+            totalResourcesEl.textContent = count;
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            renderResources(e.target.value);
+        });
+
+        // Initial render
+        renderResources();
+
+const audioBienvenida = document.getElementById('mensaje-bienvenida');
+
+// Función maestra para reproducir
+const forzarReproduccion = async () => {
+    try {
+        // Aseguramos que el audio esté cargado
+        audioBienvenida.muted = false; 
+        await audioBienvenida.play();
+        console.log("Reproducción exitosa");
+        
+        // Limpiamos los eventos para que no se repita
+        ['click', 'touchstart', 'keydown'].forEach(evt => 
+            document.removeEventListener(evt, forzarReproduccion)
+        );
+    } catch (e) {
+        console.log("Reintento fallido, esperando otra interacción...", e);
+    }
+};
+
+// Escuchamos cualquier interacción (clic, toque en móvil o teclado)
+document.addEventListener('click', forzarReproduccion);
+document.addEventListener('touchstart', forzarReproduccion);
+document.addEventListener('keydown', forzarReproduccion);
+
+// Log de depuración: revisa la consola (F12) para ver si el archivo carga
+audioBienvenida.addEventListener('error', (e) => {
+    console.error("Error cargando el audio. Es posible que el link de Drive esté bloqueado.");
+});
+    </script>
+</body>
+</html>
