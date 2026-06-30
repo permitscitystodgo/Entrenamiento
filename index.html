@@ -6,214 +6,872 @@
     <title>Portal de Entrenamiento | Permits City</title>
     <!-- Tailwind CSS Play CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- React and ReactDOM UMD -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <!-- Babel Standalone for JSX parsing in the browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); }
-        .card-hover { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        /* CORREGIDO: Se cambió 'shadow:' por 'box-shadow:' */
-        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
-        .fade-in { animation: fadeIn 0.6s ease-out forwards; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        /* Personalización de barra de desplazamiento */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.25);
+        }
+        /* Transición de colores y fondo */
+        .bg-transition {
+            transition: background-color 0.7s ease-in-out, background-image 0.7s ease-in-out, color 0.5s ease-in-out;
         }
     </style>
-</head>
-<body class="bg-slate-50 text-slate-900 antialiased min-h-screen">
-
-    <!-- Header -->
-    <header class="gradient-bg text-white py-16 px-6 shadow-2xl relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-96 h-96 bg-blue-400/10 rounded-full -mr-48 -mt-48 blur-3xl animate-pulse"></div>
-        <div class="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/10 rounded-full -ml-32 -mb-32 blur-3xl"></div>
-        
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between relative z-10">
-            <div class="text-center md:text-left mb-10 md:mb-0">
-                <div class="flex items-center justify-center md:justify-start gap-4 mb-6 group cursor-default">
-                    <div class="w-16 h-16 bg-white/10 backdrop-blur-lg border border-white/30 rounded-2xl flex items-center justify-center shadow-inner group-hover:rotate-6 transition-transform duration-500">
-                        <svg class="w-10 h-10 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h2 class="text-2xl font-bold tracking-tight leading-none">Permits City</h2>
-                        <span class="text-blue-300 text-xs font-semibold uppercase tracking-[0.2em]">Excellence in Permits</span>
-                    </div>
-                </div>
-                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-blue-200">
-                    Portal de Entrenamiento
-                </h1>
-                <p class="text-blue-100 text-lg md:text-xl font-light max-w-xl mx-auto md:mx-0 opacity-90 leading-relaxed">
-                    Recursos estratégicos para la gestión eficiente de licencias y permisos urbanos.
-                </p>
-            </div>
-            
-            <div class="w-full md:w-auto">
-                <div class="relative group mb-6">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <svg class="w-5 h-5 text-blue-300 group-focus-within:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    </div>
-                    <input 
-                        type="text" 
-                        id="search-input"
-                        placeholder="Buscar recurso..." 
-                        class="w-full md:w-80 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl py-4 pl-12 pr-6 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 transition-all shadow-lg"
-                    >
-                </div>
-                <!-- Mini Stats -->
-                <div class="flex justify-center md:justify-end gap-8 text-xs text-blue-200 uppercase tracking-widest font-semibold opacity-70">
-                    <div class="flex flex-col items-center md:items-end">
-                        <span id="total-resources" class="text-lg text-white font-bold tracking-normal leading-none mb-1">0</span>
-                        <span>Recursos</span>
-                    </div>
-                    <div class="flex flex-col items-center md:items-end">
-                        <span class="text-lg text-white font-bold tracking-normal leading-none mb-1">3</span>
-                        <span>Módulos</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Etiqueta de Audio Con Enlace Directo de Drive -->
-    <audio id="mensaje-bienvenida" autoplay preload="auto">
-        <source src="https://www.dropbox.com/scl/fi/hbpjfy5h1ip6cds1zou8z/Bienvenida.mp3?rlkey=ofdm1k2ge6cir9o3w2sx8n5bt&st=n5dc4lf3&raw=1" type="audio/mpeg">
-        Tu navegador no soporta el elemento de audio.
-    </audio>
-
-    <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-6 -mt-10 mb-20 space-y-16" id="content-container">
-        <!-- Dashboard content will be injected here -->
-    </main>
-
-    <!-- Footer -->
-    <footer class="mt-20 pt-10 pb-20 border-t border-slate-200 text-center">
-        <p class="text-slate-500 text-sm">&copy; 2026 Permits City · Diseñado por Luis Gomez</p>
-        <div class="flex justify-center gap-6 mt-4">
-            <span class="text-slate-400 hover:text-blue-600 transition-colors px-3 py-1 cursor-pointer">Términos</span>
-            <span class="text-slate-400 hover:text-blue-600 transition-colors px-3 py-1 cursor-pointer">Soporte</span>
-        </div>
-    </footer>
-
+    
     <script>
-        const resources = [
-            { title: "Introducción a la Empresa", url: "https://drive.google.com/file/d/1w1GOBtLwmpOuLFBTjoVhhDzqxrj8X_ih/view?usp=drive_link", category: "Fundamentos", desc: "Nuestra visión, misión y lo que hacemos como Permits City." },
-            { title: "Glosario de Términos", url: "https://drive.google.com/file/d/1Qvi8MQG6-7AOOpey_bldD_vnA7_qXKYC/view?usp=drive_link", category: "Fundamentos", desc: "Diccionario esencial de terminología técnica de permisos." },
-            { title: "True People Search", url: "https://drive.google.com/file/d/1jcDLdOCThCCXqLjlnJ_ayZYGO7O03Gdb/view?usp=drive_link", category: "Herramientas", desc: "Guía para la verificación de identidad de propietarios." },
-            { title: "Property Appraiser", url: "https://www.canva.com/design/DAGF3mDlBMc/5UBq1ODGQmYtAGjNCuM2hA/view?utm_content=DAGF3mDlBMc&utm_campaign=designshare&utm_medium=link&utm_source=viewer", category: "Herrmientas", desc: "Uso de herramientas de valoración y datos de propiedad." },
-            { title: "Sunbiz", url: "https://www.canva.com/design/DAGF4l_CodY/JR9O1bO-MGdWuu2CpBkGCA/view?presentation", category: "Herramientas", desc: "Búsqueda de registros comerciales e información corporativa." },
-            { title: "Casos Zoho CRM", url: "https://drive.google.com/file/d/1q5QlZwv7yrwrspEPL7di1gtHeXG3rnoo/view?usp=drive_link", category: "Herramientas", desc: "Gestión óptima del flujo de trabajo en CRM." },
-            { title: "Permit Application", url: "https://drive.google.com/file/d/1ei9J3QWmKoNyNbnZfqmLKvvKxIlFiTpN/view?usp=drive_link", category: "Operaciones", desc: "Instrucciones detalladas para el llenado de aplicaciones." },
-            { title: "NOC: Llenado", url: "https://drive.google.com/file/d/1IPK3mje3IZ6Lh08eaHUsj5osdFA35aX0/view?usp=drive_link", category: "Operaciones", desc: "Cómo completar el Notice of Commencement correctamente." },
-            { title: "NOC: Sometimiento", url: "https://drive.google.com/file/d/1jDyndl-ItUC95URlV1HfxLTv_4jIHAaP/view?usp=drive_link", category: "Operaciones", desc: "Proceso legal de registro del NOC en la corte." },
-            { title: "Gestión de Violaciones", url: "https://drive.google.com/file/d/1vwQV4xQGhrdQBdUFrjZF86ftxU90mctO/view?usp=drive_link", category: "Operaciones", desc: "Búsqueda y resolución de violaciones técnicas." },
-            { title: "Búsqueda de Permisos", url: "https://drive.google.com/file/d/1iiqunQThZEv0FHTpVxBJ81MCS5SlSAJo/view?usp=drive_link", category: "Operaciones", desc: "Rastreo de historial y estado de permisos activos." },
-            { title: "AUTOCAD: Operativa", url: "https://drive.google.com/file/d/1FlRdzSR8gIdWGY-SayaSj_EoQcXd--R5/view?usp=drive_link", category: "Operaciones", desc: "Guía práctica para el manejo de planos y diseños." },
-            { title: "Preguntas para casos", url: "https://drive.google.com/file/d/1c2nWfnGhiqY_mCnetAEZaPFc4UVW_tdl/view?usp=drive_link", category: "Operaciones", desc: "Guía práctica para el manejo de planos y diseños." },
-            { title: "Protocolo de Llamadas", url: "https://drive.google.com/file/d/1di8-4-QQhEqfvcR8Fgna2f066h6l0VO2/view?usp=drive_link", category: "Operaciones", desc: "Estrategias de comunicación efectiva con clientes." }
+        // Configuración de fuentes y temas para Tailwind CSS
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-transition min-h-screen relative flex flex-col justify-between overflow-x-hidden">
+
+    <!-- Contenedor Raíz de React -->
+    <div id="root"></div>
+
+    <!-- Script de Implementación React + JSX -->
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const RESOURCES = [
+            { id: "intro", title: "Introducción a la Empresa", url: "https://drive.google.com/file/d/1w1GOBtLwmpOuLFBTjoVhhDzqxrj8X_ih/view?usp=drive_link", category: "Fundamentos", desc: "Nuestra visión, misión, valores institucionales y lo que hacemos como Permits City para liderar el sector." },
+            { id: "glosario", title: "Glosario de Términos", url: "https://drive.google.com/file/d/1Qvi8MQG6-7AOOpey_bldD_vnA7_qXKYC/view?usp=drive_link", category: "Fundamentos", desc: "Diccionario esencial de terminología técnica de permisos, acrónimos comunes y regulaciones urbanas." },
+            { id: "truepeople", title: "True People Search", url: "https://drive.google.com/file/d/1jcDLdOCThCCXqLjlnJ_ayZYGO7O03Gdb/view?usp=drive_link", category: "Herramientas", desc: "Guía metodológica paso a paso para la verificación exacta de identidad y datos de contacto de propietarios." },
+            { id: "property", title: "Property Appraiser", url: "https://www.canva.com/design/DAGF3mDlBMc/5UBq1ODGQmYtAGjNCuM2hA/view?utm_content=DAGF3mDlBMc&utm_campaign=designshare&utm_medium=link&utm_source=viewer", category: "Herramientas", desc: "Uso estratégico de las herramientas oficiales de valoración de inmuebles y extracción de datos catastrales." },
+            { id: "sunbiz", title: "Sunbiz Registry", url: "https://www.canva.com/design/DAGF4l_CodY/JR9O1bO-MGdWuu2CpBkGCA/view?presentation", category: "Herramientas", desc: "Búsqueda avanzada de registros comerciales corporativos de Florida e información detallada de firmas." },
+            { id: "zoho", title: "Casos Zoho CRM", url: "https://drive.google.com/file/d/1q5QlZwv7yrwrspEPL7di1gtHeXG3rnoo/view?usp=drive_link", category: "Herramientas", desc: "Gestión óptima del flujo de trabajo, documentación, estados de casos y automatización dentro de Zoho CRM." },
+            { id: "permit_app", title: "Permit Application", url: "https://drive.google.com/file/d/1ei9J3QWmKoNyNbnZfqmLKvvKxIlFiTpN/view?usp=drive_link", category: "Operaciones", desc: "Manual instructivo detallado para el correcto llenado de aplicaciones oficiales ante los condados." },
+            { id: "noc_llenado", title: "NOC: Llenado", url: "https://drive.google.com/file/d/1IPK3mje3IZ6Lh08eaHUsj5osdFA35aX0/view?usp=drive_link", category: "Operaciones", desc: "Cómo completar el formulario de Notice of Commencement (NOC) garantizando el cumplimiento legal sin errores." },
+            { id: "noc_sometimiento", title: "NOC: Sometimiento", url: "https://drive.google.com/file/d/1jDyndl-ItUC95URlV1HfxLTv_4jIHAaP/view?usp=drive_link", category: "Operaciones", desc: "Proceso detallado del envío y registro del NOC ante la corte del condado correspondiente." },
+            { id: "violaciones", title: "Gestión de Violaciones", url: "https://drive.google.com/file/d/1vwQV4xQGhrdQBdUFrjZF86ftxU90mctO/view?usp=drive_link", category: "Operaciones", desc: "Protocolo completo para la detección, consulta de historial y mitigación de violaciones técnicas de código urbano." },
+            { id: "busqueda", title: "Búsqueda de Permisos", url: "https://drive.google.com/file/d/1iiqunQThZEv0FHTpVxBJ81MCS5SlSAJo/view?usp=drive_link", category: "Operaciones", desc: "Rastreo avanzado de historial de construcción y estados de permisos activos mediante plataformas municipales." },
+            { id: "autocad", title: "AUTOCAD: Operativa", url: "https://drive.google.com/file/d/1FlRdzSR8gIdWGY-SayaSj_EoQcXd--R5/view?usp=drive_link", category: "Operaciones", desc: "Guía práctica de diseño técnico para la revisión, ajuste básico y exportación óptima de planos de obras." },
+            { id: "preguntas", title: "Preguntas para casos", url: "https://drive.google.com/file/d/1c2nWfnGhiqY_mCnetAEZaPFc4UVW_tdl/view?usp=drive_link", category: "Operaciones", desc: "Estructura de cuestionamientos críticos para levantar información precisa y diagnosticar casos complejos." },
+            { id: "protocolo", title: "Protocolo de Llamadas", url: "https://drive.google.com/file/d/1di8-4-QQhEqfvcR8Fgna2f066h6l0VO2/view?usp=drive_link", category: "Operaciones", desc: "Pautas de etiqueta telefónica, atención al cliente y técnicas de persuasión profesional." }
         ];
 
-        const container = document.getElementById('content-container');
-        const searchInput = document.getElementById('search-input');
-        const totalResourcesEl = document.getElementById('total-resources');
-        const categories = ["Fundamentos", "Herramientas", "Operaciones"];
+        const THEME_PRESETS = [
+            {
+                id: "slate-navy",
+                name: "Slate Navy (Original)",
+                gradient: "linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%)",
+                isDark: true
+            },
+            {
+                id: "emerald-forest",
+                name: "Emerald Forest",
+                gradient: "linear-gradient(135deg, #022c22 0%, #0d9488 100%)",
+                isDark: true
+            },
+            {
+                id: "sunset-crimson",
+                name: "Sunset Crimson",
+                gradient: "linear-gradient(135deg, #4c0519 0%, #be123c 100%)",
+                isDark: true
+            },
+            {
+                id: "royal-purple",
+                name: "Royal Purple",
+                gradient: "linear-gradient(135deg, #1e1b4b 0%, #6366f1 100%)",
+                isDark: true
+            },
+            {
+                id: "midnight-coal",
+                name: "Midnight Coal",
+                gradient: "linear-gradient(135deg, #020617 0%, #0f172a 100%)",
+                isDark: true
+            },
+            {
+                id: "minimalist-light",
+                name: "Warm Editorial Light",
+                gradient: "linear-gradient(135deg, #fafaf9 0%, #e7e5e4 100%)",
+                isDark: false
+            },
+            {
+                id: "cyberpunk-electric",
+                name: "Cyberpunk Volt",
+                gradient: "linear-gradient(135deg, #090514 0%, #2e0854 100%)",
+                isDark: true
+            }
+        ];
 
-        function renderResources(filter = "") {
-            container.innerHTML = "";
-            let count = 0;
-            
-            categories.forEach(cat => {
-                const filtered = resources.filter(r => 
-                    r.category === cat && 
-                    (r.title.toLowerCase().includes(filter.toLowerCase()) || r.desc.toLowerCase().includes(filter.toLowerCase()))
-                );
+        function App() {
+            // Estados del Fondo y Cuadrículas
+            const [selectedThemeId, setSelectedThemeId] = useState(() => localStorage.getItem("permits_theme_id") || "slate-navy");
+            const [customSolidColor, setCustomSolidColor] = useState(() => localStorage.getItem("permits_custom_solid") || "#1e293b");
+            const [bgType, setBgType] = useState(() => localStorage.getItem("permits_bg_type") || "preset");
+            const [customGradColor1, setCustomGradColor1] = useState(() => localStorage.getItem("permits_grad_1") || "#111827");
+            const [customGradColor2, setCustomGradColor2] = useState(() => localStorage.getItem("permits_grad_2") || "#1e3a8a");
+            const [blueprintOverlay, setBlueprintOverlay] = useState(() => localStorage.getItem("permits_blueprint") !== "false");
 
-                if (filtered.length > 0) {
-                    count += filtered.length;
-                    const section = document.createElement('section');
-                    section.className = "fade-in";
-                    section.innerHTML = `
-                        <div class="flex items-center gap-4 mb-10">
-                            <div class="bg-slate-900 px-6 py-2.5 rounded-2xl shadow-xl shadow-slate-200/60 transition-transform hover:scale-105 duration-300">
-                                <h2 class="text-sm font-extrabold text-white tracking-widest uppercase">${cat}</h2>
-                            </div>
-                            <div class="h-px flex-1 bg-slate-200"></div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            ${filtered.map(r => `
-                                <a href="${r.url}" target="_blank" class="card-hover group block bg-white rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-300 border border-slate-100 hover:border-blue-200">
-                                    <div class="flex items-start justify-between mb-6">
-                                        <div class="p-4 bg-slate-50 rounded-2xl group-hover:bg-blue-50 transition-colors text-slate-600 group-hover:text-blue-600">
-                                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                        </div>
-                                        <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-slate-100 px-3 py-1 rounded-full">URL</span>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-700 transition-colors">${r.title}</h3>
-                                    <p class="text-sm text-slate-500 leading-relaxed min-h-[48px]">${r.desc}</p>
-                                    <div class="mt-8 pt-6 border-t border-slate-50 flex items-center justify-between text-blue-600 font-bold text-sm">
-                                        <span>Explorar</span>
-                                        <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                                        </div>
-                                    </div>
-                                </a>
-                            `).join('')}
-                        </div>
-                    `;
-                    container.appendChild(section);
+            // Estados de Búsqueda y Filtros de Categorías
+            const [searchQuery, setSearchQuery] = useState("");
+            const [selectedCategory, setSelectedCategory] = useState("All");
+
+            // Estados de Progreso de Tareas
+            const [completedResources, setCompletedResources] = useState(() => {
+                const saved = localStorage.getItem("permits_completed");
+                return saved ? JSON.parse(saved) : [];
+            });
+
+            // Paneles modales
+            const [isThemePanelOpen, setIsThemePanelOpen] = useState(false);
+            const [selectedResource, setSelectedResource] = useState(null);
+            const [copiedId, setCopiedId] = useState(null);
+
+            // Estados de Audio de Bienvenida
+            const [audioPlaying, setAudioPlaying] = useState(false);
+            const [audioVolume, setAudioVolume] = useState(0.8);
+            const [audioMuted, setAudioMuted] = useState(false);
+            const [audioLoadError, setAudioLoadError] = useState(false);
+            const audioRef = useRef(null);
+
+            // Persistir cambios en LocalStorage automáticamente
+            useEffect(() => {
+                localStorage.setItem("permits_theme_id", selectedThemeId);
+                localStorage.setItem("permits_custom_solid", customSolidColor);
+                localStorage.setItem("permits_bg_type", bgType);
+                localStorage.setItem("permits_grad_1", customGradColor1);
+                localStorage.setItem("permits_grad_2", customGradColor2);
+                localStorage.setItem("permits_blueprint", blueprintOverlay.toString());
+            }, [selectedThemeId, customSolidColor, bgType, customGradColor1, customGradColor2, blueprintOverlay]);
+
+            useEffect(() => {
+                localStorage.setItem("permits_completed", JSON.stringify(completedResources));
+            }, [completedResources]);
+
+            // Reactiva los iconos Lucide tras re-renders
+            useEffect(() => {
+                if (window.lucide) {
+                    window.lucide.createIcons();
                 }
             });
 
-            if (count === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-200">
-                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-slate-50 text-slate-300 mb-6 font-light">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            // Ajustar volumen del elemento de audio
+            useEffect(() => {
+                if (audioRef.current) {
+                    audioRef.current.volume = audioMuted ? 0 : audioVolume;
+                }
+            }, [audioVolume, audioMuted]);
+
+            const toggleAudio = async () => {
+                if (!audioRef.current) return;
+                try {
+                    if (audioPlaying) {
+                        audioRef.current.pause();
+                        setAudioPlaying(false);
+                    } else {
+                        const playPromise = audioRef.current.play();
+                        if (playPromise !== undefined) {
+                            await playPromise;
+                            setAudioPlaying(true);
+                        }
+                    }
+                } catch (e) {
+                    console.error("Fallo de audio:", e);
+                    setAudioLoadError(true);
+                }
+            };
+
+            const handleToggleCompleted = (id, e) => {
+                if (e) e.stopPropagation();
+                setCompletedResources(prev => {
+                    return prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id];
+                });
+            };
+
+            const handleCopyLink = (url, id, e) => {
+                if (e) e.stopPropagation();
+                navigator.clipboard.writeText(url);
+                setCopiedId(id);
+                setTimeout(() => setCopiedId(null), 2000);
+            };
+
+            const currentPreset = THEME_PRESETS.find(t => t.id === selectedThemeId) || THEME_PRESETS[0];
+
+            // Inyectar el fondo dinámicamente al body para transiciones fluidas
+            useEffect(() => {
+                const body = document.body;
+                if (bgType === "custom-solid") {
+                    body.style.backgroundImage = "none";
+                    body.style.backgroundColor = customSolidColor;
+                } else if (bgType === "custom-gradient") {
+                    body.style.backgroundImage = `linear-gradient(135deg, ${customGradColor1} 0%, ${customGradColor2} 100%)`;
+                } else {
+                    body.style.backgroundImage = currentPreset.gradient;
+                }
+            }, [bgType, selectedThemeId, customSolidColor, customGradColor1, customGradColor2]);
+
+            // Determinar si el fondo actual requiere colores de texto oscuros o claros
+            const isCurrentDark = () => {
+                if (bgType === "custom-solid") {
+                    const hex = customSolidColor.replace('#', '');
+                    if (hex.length !== 6) return true;
+                    const r = parseInt(hex.substring(0, 2), 16);
+                    const g = parseInt(hex.substring(2, 4), 16);
+                    const b = parseInt(hex.substring(4, 6), 16);
+                    const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+                    return yiq < 128;
+                }
+                if (bgType === "custom-gradient") return true;
+                return currentPreset.isDark;
+            };
+
+            const darkTheme = isCurrentDark();
+
+            const filteredResources = RESOURCES.filter(resource => {
+                const matchesCategory = selectedCategory === "All" || resource.category === selectedCategory;
+                const matchesSearch = resource.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      resource.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                      resource.category.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            const totalCount = RESOURCES.length;
+            const completedCount = completedResources.length;
+            const completionPercentage = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+
+            const handleResetTheme = () => {
+                setSelectedThemeId("slate-navy");
+                setBgType("preset");
+                setCustomSolidColor("#1e293b");
+                setCustomGradColor1("#111827");
+                setCustomGradColor2("#1e3a8a");
+                setBlueprintOverlay(true);
+            };
+
+            return (
+                <div className={`w-full min-h-screen flex flex-col justify-between py-4 ${darkTheme ? 'text-white' : 'text-slate-900'} relative z-10`}>
+                    
+                    {/* Retícula Blueprint AutoCAD */}
+                    {blueprintOverlay && (
+                        <div 
+                            className="absolute inset-0 pointer-events-none opacity-[0.07] transition-opacity duration-500" 
+                            style={{
+                                backgroundImage: `
+                                    radial-gradient(circle, currentColor 1px, transparent 1px),
+                                    linear-gradient(to right, currentColor 1px, transparent 1px),
+                                    linear-gradient(to bottom, currentColor 1px, transparent 1px)
+                                `,
+                                backgroundSize: '24px 24px, 120px 120px, 120px 120px',
+                                color: darkTheme ? '#ffffff' : '#000000'
+                            }}
+                        />
+                    )}
+
+                    {/* Audio de Bienvenida de Luis Gomez */}
+                    <audio 
+                        ref={audioRef}
+                        id="audio-bienvenida-src"
+                        src="https://www.dropbox.com/scl/fi/hbpjfy5h1ip6cds1zou8z/Bienvenida.mp3?rlkey=ofdm1k2ge6cir9o3w2sx8n5bt&st=n5dc4lf3&raw=1"
+                        onPlay={() => setAudioPlaying(true)}
+                        onPause={() => setAudioPlaying(false)}
+                        onError={() => setAudioLoadError(true)}
+                    />
+
+                    {/* SECCIÓN CABECERA */}
+                    <header className="py-8 px-6 max-w-6xl mx-auto w-full relative z-20">
+                        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+                            
+                            {/* Identidad de Marca */}
+                            <div className="text-center md:text-left">
+                                <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
+                                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-lg transition-transform hover:rotate-6 ${darkTheme ? 'bg-white/10 backdrop-blur-md border border-white/20' : 'bg-slate-900/5 border border-slate-900/10'}`}>
+                                        <svg className={`w-7 h-7 ${darkTheme ? 'text-blue-300' : 'text-blue-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h2 className="text-lg font-bold font-display leading-none">Permits City</h2>
+                                        <span className={`text-[10px] font-semibold uppercase tracking-[0.2em] ${darkTheme ? 'text-blue-300' : 'text-blue-600'}`}>Excellence in Permits</span>
+                                    </div>
+                                </div>
+
+                                <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-2 font-display">
+                                    Portal de Entrenamiento
+                                </h1>
+                                <p className={`text-sm font-light max-w-xl opacity-90 leading-relaxed ${darkTheme ? 'text-blue-100' : 'text-slate-600'}`}>
+                                    Recursos de capacitación estratégica para la obtención rápida y optimización de licencias urbanas de construcción.
+                                </p>
+                            </div>
+
+                            {/* Utilidades e Inputs de Búsqueda */}
+                            <div className="flex flex-col gap-4 w-full md:w-auto items-stretch md:items-end">
+                                
+                                <div className="flex flex-wrap items-center justify-center md:justify-end gap-3">
+                                    {/* Audio Controller */}
+                                    <div className={`flex items-center gap-2 p-2 rounded-xl border ${darkTheme ? 'bg-white/10 border-white/10 text-white' : 'bg-white border-slate-200 text-slate-800 shadow-sm'}`}>
+                                        <button
+                                            onClick={toggleAudio}
+                                            className="p-1.5 rounded-lg hover:bg-slate-500/10 transition-all flex items-center justify-center text-blue-500"
+                                            title="Reproducir audio de bienvenida"
+                                        >
+                                            {audioPlaying ? (
+                                                <i data-lucide="pause" className="w-4 h-4 text-emerald-400 animate-pulse"></i>
+                                            ) : (
+                                                <i data-lucide="play" className="w-4 h-4"></i>
+                                            )}
+                                        </button>
+                                        <span className="text-xs font-medium px-1 truncate max-w-[100px]">Audio Guía Luis</span>
+                                        <button
+                                            onClick={() => setAudioMuted(!audioMuted)}
+                                            className="p-1.5 rounded-lg hover:bg-slate-500/10 transition-all text-slate-400 hover:text-slate-200"
+                                        >
+                                            {audioMuted ? (
+                                                <i data-lucide="volume-x" className="w-3.5 h-3.5 text-red-400"></i>
+                                            ) : (
+                                                <i data-lucide="volume-2" className="w-3.5 h-3.5"></i>
+                                            )}
+                                        </button>
+                                    </div>
+
+                                    {/* Botón de Selección de Fondos */}
+                                    <button
+                                        onClick={() => setIsThemePanelOpen(!isThemePanelOpen)}
+                                        className={`flex items-center gap-2 py-2.5 px-4 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer ${
+                                            darkTheme 
+                                            ? 'bg-blue-600 hover:bg-blue-500 text-white' 
+                                            : 'bg-slate-955 hover:bg-slate-800 text-white'
+                                        }`}
+                                    >
+                                        <i data-lucide="palette" className="w-3.5 h-3.5"></i>
+                                        <span>Cambiar Fondo</span>
+                                    </button>
+                                </div>
+
+                                {/* Caja de Búsqueda */}
+                                <div className="relative w-full md:w-80">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i data-lucide="search" className={`w-4 h-4 ${darkTheme ? 'text-blue-300' : 'text-slate-400'}`}></i>
+                                    </div>
+                                    <input 
+                                        type="text" 
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        placeholder="Buscar recursos..." 
+                                        className={`w-full rounded-xl py-2.5 pl-9 pr-8 text-xs focus:outline-none focus:ring-1 transition-all ${
+                                            darkTheme 
+                                            ? 'bg-white/10 hover:bg-white/15 focus:bg-white/20 border border-white/10 text-white placeholder-blue-200/60 focus:ring-blue-400' 
+                                            : 'bg-white hover:bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:ring-blue-600'
+                                        }`}
+                                    />
+                                    {searchQuery && (
+                                        <button 
+                                            onClick={() => setSearchQuery("")}
+                                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-200"
+                                        >
+                                            <i data-lucide="x" className="w-3.5 h-3.5"></i>
+                                        </button>
+                                    )}
+                                </div>
+
+                            </div>
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-900 mb-2">Sin coincidencias</h3>
-                        <p class="text-slate-500 max-w-xs mx-auto">No pudimos encontrar el recurso que buscas. Prueba con palabras clave generales.</p>
-                        <button onclick="searchInput.value=''; renderResources();" class="mt-8 text-blue-600 font-bold hover:underline">Limpiar búsqueda</button>
-                    </div>
-                `;
-            }
-            totalResourcesEl.textContent = count;
+                    </header>
+
+                    {/* SECCIÓN INTERACTIVA PRINCIPAL */}
+                    <main className="max-w-6xl mx-auto px-6 flex-1 w-full pb-12 z-10">
+                        
+                        {/* Cajón de Configuración de Color de Fondo */}
+                        {isThemePanelOpen && (
+                            <div className={`p-5 rounded-2xl mb-8 border shadow-xl relative transition-colors ${
+                                darkTheme 
+                                ? 'bg-slate-900/95 border-slate-800 text-white' 
+                                : 'bg-white/95 border-slate-200 text-slate-900'
+                            }`}>
+                                <button 
+                                    onClick={() => setIsThemePanelOpen(false)}
+                                    className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-slate-500/15"
+                                >
+                                    <i data-lucide="x" className="w-4 h-4"></i>
+                                </button>
+
+                                <div className="flex items-center gap-2.5 mb-4 border-b pb-2 border-slate-700/20">
+                                    <i data-lucide="palette" className="w-5 h-5 text-blue-500"></i>
+                                    <h3 className="font-bold font-display text-base">Configuración de Fondo y Estilos</h3>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    
+                                    {/* Temas Predefinidos */}
+                                    <div className="space-y-2">
+                                        <h4 className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Preajustes Profesionales</h4>
+                                        <div className="grid grid-cols-2 gap-2 max-h-32 overflow-y-auto">
+                                            {THEME_PRESETS.map((preset) => (
+                                                <button
+                                                    key={preset.id}
+                                                    onClick={() => {
+                                                        setBgType("preset");
+                                                        setSelectedThemeId(preset.id);
+                                                    }}
+                                                    className={`p-2 rounded-lg text-left text-[11px] font-semibold h-10 relative overflow-hidden flex items-center justify-between border ${
+                                                        bgType === "preset" && selectedThemeId === preset.id 
+                                                        ? 'border-blue-500 ring-1 ring-blue-500' 
+                                                        : 'border-slate-700/20 hover:scale-[1.02] transition-transform'
+                                                    }`}
+                                                    style={{ backgroundImage: preset.gradient }}
+                                                >
+                                                    <span className="text-white drop-shadow-sm">{preset.name}</span>
+                                                    {bgType === "preset" && selectedThemeId === preset.id && (
+                                                        <i data-lucide="check" className="w-3.5 h-3.5 text-white bg-blue-500 rounded-full p-0.5"></i>
+                                                    )}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Selector de Color Sólido */}
+                                    <div className="space-y-2 md:border-l border-slate-700/20 md:pl-6">
+                                        <h4 className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Color Sólido Personalizado</h4>
+                                        <div className="flex items-center gap-3">
+                                            <button
+                                                onClick={() => setBgType("custom-solid")}
+                                                className={`flex-1 py-1.5 px-3 rounded-lg text-[11px] font-bold ${
+                                                    bgType === "custom-solid" ? 'bg-blue-600 text-white' : 'bg-slate-700/15 text-current'
+                                                }`}
+                                            >
+                                                Usar Color Sólido
+                                            </button>
+                                            <input 
+                                                type="color" 
+                                                value={customSolidColor}
+                                                onChange={(e) => {
+                                                    setBgType("custom-solid");
+                                                    setCustomSolidColor(e.target.value);
+                                                }}
+                                                className="w-10 h-8 rounded cursor-pointer border border-slate-700/20"
+                                            />
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                            <span className="text-[9px] text-slate-400 font-mono">Hex Code:</span>
+                                            <input 
+                                                type="text" 
+                                                value={customSolidColor} 
+                                                onChange={(e) => setCustomSolidColor(e.target.value)}
+                                                className="text-[10px] bg-slate-800/50 text-white rounded px-2 py-0.5 font-mono w-20 border border-slate-700/30"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Selector de Gradiente Personalizado y Cuadrículas */}
+                                    <div className="space-y-2 md:border-l border-slate-700/20 md:pl-6">
+                                        <h4 className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Gradiente & Retícula Técnica</h4>
+                                        <button
+                                            onClick={() => setBgType("custom-gradient")}
+                                            className={`w-full py-1.5 px-3 rounded-lg text-[11px] font-bold mb-2 ${
+                                                bgType === "custom-gradient" ? 'bg-blue-600 text-white' : 'bg-slate-700/15 text-current'
+                                            }`}
+                                        >
+                                            Usar Gradiente Personalizado
+                                        </button>
+                                        <div className="flex gap-2 justify-between">
+                                            <div className="flex items-center gap-1">
+                                                <input 
+                                                    type="color" 
+                                                    value={customGradColor1} 
+                                                    onChange={(e) => {
+                                                        setBgType("custom-gradient");
+                                                        setCustomGradColor1(e.target.value);
+                                                    }}
+                                                    className="w-6 h-6 rounded border border-slate-700/20"
+                                                />
+                                                <span className="text-[9px] font-mono">{customGradColor1}</span>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                <input 
+                                                    type="color" 
+                                                    value={customGradColor2} 
+                                                    onChange={(e) => {
+                                                        setBgType("custom-gradient");
+                                                        setCustomGradColor2(e.target.value);
+                                                    }}
+                                                    className="w-6 h-6 rounded border border-slate-700/20"
+                                                />
+                                                <span className="text-[9px] font-mono">{customGradColor2}</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center justify-between pt-2 border-t border-slate-700/10">
+                                            <label className="text-[10px] font-bold flex items-center gap-1.5 cursor-pointer">
+                                                <input 
+                                                    type="checkbox" 
+                                                    checked={blueprintOverlay}
+                                                    onChange={(e) => setBlueprintOverlay(e.target.checked)}
+                                                    className="rounded text-blue-600 w-3.5 h-3.5"
+                                                />
+                                                <span>Cuadrícula AutoCAD Blueprint</span>
+                                            </label>
+
+                                            <button 
+                                                onClick={handleResetTheme}
+                                                className="text-[10px] font-bold text-blue-500 hover:underline flex items-center gap-1"
+                                            >
+                                                <span>Restaurar</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        )}
+
+                        {/* PANEL MÉTRICO DE PROGRESO */}
+                        <div className={`p-5 rounded-2xl mb-8 shadow-md flex flex-col md:flex-row items-center justify-between gap-6 ${
+                            darkTheme ? 'bg-white/10 backdrop-blur-md border border-white/15' : 'bg-white border border-slate-200 shadow-sm'
+                        }`}>
+                            <div className="flex items-center gap-3">
+                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${darkTheme ? 'bg-blue-500/20 text-blue-300' : 'bg-blue-50 text-blue-600'}`}>
+                                    <i data-lucide="check-circle-2" className="w-5.5 h-5.5"></i>
+                                </div>
+                                <div className="text-left">
+                                    <h3 className="font-bold text-sm">Tu Progreso de Capacitación</h3>
+                                    <p className="text-[10px] opacity-75">Sigue tu entrenamiento diario para el llenado óptimo de permisos</p>
+                                </div>
+                            </div>
+
+                            <div className="flex-1 max-w-sm w-full">
+                                <div className="flex justify-between items-center mb-1 text-[10px] font-bold">
+                                    <span>{completedCount} de {totalCount} módulos listos</span>
+                                    <span>{completionPercentage}% completado</span>
+                                </div>
+                                <div className={`w-full h-2 rounded-full overflow-hidden ${darkTheme ? 'bg-white/20' : 'bg-slate-100'}`}>
+                                    <div 
+                                        className="h-full bg-gradient-to-r from-emerald-400 to-blue-500 transition-all duration-500"
+                                        style={{ width: `${completionPercentage}%` }}
+                                    />
+                                </div>
+                            </div>
+
+                            {completedCount > 0 && (
+                                <button
+                                    onClick={() => {
+                                        if (confirm("¿Estás seguro de reiniciar tu progreso?")) {
+                                            setCompletedResources([]);
+                                        }
+                                    }}
+                                    className="text-[10px] font-bold text-red-400 hover:text-red-300 transition-colors py-1 px-2.5 rounded hover:bg-red-500/10"
+                                >
+                                    Reiniciar Progreso
+                                </button>
+                            )}
+                        </div>
+
+                        {/* FILTROS POR CATEGORÍAS */}
+                        <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-6">
+                            <button
+                                onClick={() => setSelectedCategory("All")}
+                                className={`px-4 py-2 rounded-full text-[10px] font-bold tracking-wider uppercase transition-all cursor-pointer ${
+                                    selectedCategory === "All"
+                                    ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
+                                    : darkTheme ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                                }`}
+                            >
+                                Todos ({totalCount})
+                            </button>
+                            <button
+                                onClick={() => setSelectedCategory("Fundamentos")}
+                                className={`px-4 py-2 rounded-full text-[10px] font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+                                    selectedCategory === "Fundamentos"
+                                    ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
+                                    : darkTheme ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                                }`}
+                            >
+                                <i data-lucide="book-open" className="w-3.5 h-3.5 text-sky-400"></i>
+                                Fundamentos
+                            </button>
+                            <button
+                                onClick={() => setSelectedCategory("Herramientas")}
+                                className={`px-4 py-2 rounded-full text-[10px] font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+                                    selectedCategory === "Herramientas"
+                                    ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
+                                    : darkTheme ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                                }`}
+                            >
+                                <i data-lucide="wrench" className="w-3.5 h-3.5 text-emerald-400"></i>
+                                Herramientas
+                            </button>
+                            <button
+                                onClick={() => setSelectedCategory("Operaciones")}
+                                className={`px-4 py-2 rounded-full text-[10px] font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+                                    selectedCategory === "Operaciones"
+                                    ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
+                                    : darkTheme ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                                }`}
+                            >
+                                <i data-lucide="layers" className="w-3.5 h-3.5 text-amber-400"></i>
+                                Operaciones
+                            </button>
+                        </div>
+
+                        {/* CUADRÍCULA DE CARTAS DE RECURSOS */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                            {filteredResources.map((res) => {
+                                const isCompleted = completedResources.includes(res.id);
+                                return (
+                                    <div
+                                        key={res.id}
+                                        onClick={() => setSelectedResource(res)}
+                                        className={`group rounded-2xl p-5 shadow-sm border cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-64 ${
+                                            darkTheme 
+                                            ? 'bg-white/10 backdrop-blur-md border-white/10 hover:border-blue-400/50 text-white' 
+                                            : 'bg-white border-slate-200 hover:border-blue-500/40 text-slate-800 shadow-sm'
+                                        }`}
+                                    >
+                                        <div>
+                                            <div className="flex items-center justify-between mb-3">
+                                                <div className={`p-2.5 rounded-xl ${
+                                                    darkTheme ? 'bg-white/5' : 'bg-slate-50'
+                                                }`}>
+                                                    {res.category === "Fundamentos" && <i data-lucide="book-open" className="w-5 h-5 text-sky-400"></i>}
+                                                    {res.category === "Herramientas" && <i data-lucide="wrench" className="w-5 h-5 text-emerald-400"></i>}
+                                                    {res.category === "Operaciones" && <i data-lucide="layers" className="w-5 h-5 text-amber-400"></i>}
+                                                </div>
+
+                                                <div className="flex items-center gap-1">
+                                                    <span className={`text-[8px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                                                        darkTheme ? 'bg-white/10 text-white/80' : 'bg-slate-100 text-slate-500'
+                                                    }`}>
+                                                        {res.category}
+                                                    </span>
+                                                    {isCompleted && (
+                                                        <span className="text-emerald-400 bg-emerald-500/10 p-0.5 rounded-full">
+                                                            <i data-lucide="check" className="w-3 h-3"></i>
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            <h3 className="text-base font-bold tracking-tight mb-1.5 group-hover:text-blue-400 transition-colors line-clamp-1">
+                                                {res.title}
+                                            </h3>
+                                            <p className={`text-xs leading-relaxed line-clamp-3 opacity-80 ${
+                                                darkTheme ? 'text-slate-300' : 'text-slate-500'
+                                            }`}>
+                                                {res.desc}
+                                            </p>
+                                        </div>
+
+                                        {/* Acciones de Carta */}
+                                        <div className="pt-3 border-t border-slate-700/20 flex items-center justify-between">
+                                            <button
+                                                onClick={(e) => handleToggleCompleted(res.id, e)}
+                                                className={`text-[9px] font-extrabold uppercase tracking-wider py-1 px-2.5 rounded transition-all cursor-pointer ${
+                                                    isCompleted 
+                                                    ? 'bg-emerald-500/20 text-emerald-300' 
+                                                    : darkTheme ? 'bg-white/5 hover:bg-white/10 text-slate-300' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
+                                                }`}
+                                            >
+                                                {isCompleted ? "✓ Listo" : "Marcar listo"}
+                                            </button>
+
+                                            <div className="flex items-center gap-1.5">
+                                                <button
+                                                    onClick={(e) => handleCopyLink(res.url, res.id, e)}
+                                                    className="p-1.5 rounded-lg hover:bg-slate-500/10 text-slate-400 hover:text-slate-200 transition-colors"
+                                                    title="Copiar Enlace"
+                                                >
+                                                    {copiedId === res.id ? (
+                                                        <i data-lucide="check" className="w-3.5 h-3.5 text-emerald-400"></i>
+                                                    ) : (
+                                                        <i data-lucide="copy" className="w-3.5 h-3.5"></i>
+                                                    )}
+                                                </button>
+                                                <a
+                                                    href={res.url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                    className={`p-1.5 rounded-lg transition-colors ${
+                                                        darkTheme ? 'bg-blue-600 hover:bg-blue-500 text-white' : 'bg-slate-100 hover:bg-slate-200 text-blue-600'
+                                                    }`}
+                                                    title="Abrir recurso"
+                                                >
+                                                    <i data-lucide="external-link" className="w-3.5 h-3.5"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+
+                            {filteredResources.length === 0 && (
+                                <div className={`col-span-full text-center py-16 px-6 rounded-2xl border border-dashed ${
+                                    darkTheme ? 'bg-white/5 border-white/10' : 'bg-white border-slate-300 text-slate-800'
+                                }`}>
+                                    <div className="w-12 h-12 rounded-full bg-slate-500/10 flex items-center justify-center text-slate-400 mx-auto mb-3">
+                                        <i data-lucide="search" className="w-6 h-6"></i>
+                                    </div>
+                                    <h3 className="text-lg font-bold mb-1">Sin coincidencias</h3>
+                                    <p className="text-xs opacity-75 max-w-sm mx-auto mb-4">No pudimos encontrar el recurso que buscas. Prueba con palabras clave generales.</p>
+                                    <button 
+                                        onClick={() => {
+                                            setSearchQuery("");
+                                            setSelectedCategory("All");
+                                        }}
+                                        className="text-xs font-bold text-blue-400 hover:underline"
+                                    >
+                                        Limpiar filtros de búsqueda
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
+                    </main>
+
+                    {/* MODAL DETALLES DEL RECURSO */}
+                    {selectedResource && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                            {/* Backdrop */}
+                            <div 
+                                onClick={() => setSelectedResource(null)}
+                                className="absolute inset-0 bg-black/60 backdrop-blur-xs"
+                            />
+
+                            {/* Modal Content */}
+                            <div className={`w-full max-w-lg rounded-2xl p-6 relative overflow-hidden shadow-2xl border z-10 ${
+                                darkTheme 
+                                ? 'bg-slate-900 border-slate-800 text-white' 
+                                : 'bg-white border-slate-200 text-slate-800'
+                            }`}>
+                                <button 
+                                    onClick={() => setSelectedResource(null)}
+                                    className={`absolute top-4 right-4 p-1.5 rounded-full hover:bg-slate-500/10 text-slate-400 hover:text-white`}
+                                >
+                                    <i data-lucide="x" className="w-4 h-4"></i>
+                                </button>
+
+                                <div className="flex items-center gap-2 mb-4">
+                                    <span className={`text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-0.5 rounded-full ${
+                                        selectedResource.category === "Fundamentos" ? 'bg-sky-500/20 text-sky-400' :
+                                        selectedResource.category === "Herramientas" ? 'bg-emerald-500/20 text-emerald-400' :
+                                        'bg-amber-500/20 text-amber-400'
+                                    }`}>
+                                        Módulo: {selectedResource.category}
+                                    </span>
+
+                                    {completedResources.includes(selectedResource.id) && (
+                                        <span className="flex items-center gap-1 text-[10px] text-emerald-400 font-bold bg-emerald-500/10 py-0.5 px-2 rounded-full">
+                                            <i data-lucide="check" className="w-3 h-3"></i>
+                                            <span>Listo para Operar</span>
+                                        </span>
+                                    )}
+                                </div>
+
+                                <h2 className="text-xl font-bold font-display mb-2 tracking-tight">
+                                    {selectedResource.title}
+                                </h2>
+
+                                <p className={`text-xs leading-relaxed mb-4 opacity-90 ${
+                                    darkTheme ? 'text-slate-300' : 'text-slate-600'
+                                }`}>
+                                    {selectedResource.desc}
+                                </p>
+
+                                <div className={`p-3 rounded-xl mb-4 flex gap-2 text-[11px] ${
+                                    darkTheme ? 'bg-white/5' : 'bg-blue-50/50 border border-blue-100 text-slate-700'
+                                }`}>
+                                    <i data-lucide="info" className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5"></i>
+                                    <div>
+                                        <span className="font-bold block mb-0.5">Información de Enlace</span>
+                                        <p className="opacity-80">Este recurso interactivo está alojado externamente en plataformas institucionales seguras de Permits City.</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-3 border-t border-slate-700/20">
+                                    <button
+                                        onClick={() => handleToggleCompleted(selectedResource.id)}
+                                        className={`py-2 px-4 rounded-xl font-bold text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                                            completedResources.includes(selectedResource.id)
+                                            ? 'bg-emerald-500 text-white'
+                                            : darkTheme 
+                                              ? 'bg-slate-800 hover:bg-slate-700 text-slate-300' 
+                                              : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                                        }`}
+                                    >
+                                        <i data-lucide="check-circle-2" className="w-3.5 h-3.5"></i>
+                                        <span>{completedResources.includes(selectedResource.id) ? "Módulo Completado" : "Marcar como Completado"}</span>
+                                    </button>
+
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={() => handleCopyLink(selectedResource.url, selectedResource.id)}
+                                            className={`flex-1 sm:flex-initial py-2 px-3 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1 transition-colors border cursor-pointer ${
+                                                darkTheme ? 'border-slate-800 hover:bg-slate-800 text-white' : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                                            }`}
+                                        >
+                                            <i data-lucide="copy" className="w-3.5 h-3.5"></i>
+                                            <span>{copiedId === selectedResource.id ? "Copiado!" : "Copiar"}</span>
+                                        </button>
+
+                                        <a
+                                            href={selectedResource.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className={`py-2 px-3 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1 transition-colors ${
+                                                darkTheme ? 'bg-blue-600 hover:bg-blue-500 text-white' : 'bg-slate-900 hover:bg-slate-800 text-white'
+                                            }`}
+                                        >
+                                            <span>Acceder</span>
+                                            <i data-lucide="external-link" className="w-3.5 h-3.5"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* SECCIÓN PIE DE PÁGINA */}
+                    <footer className="py-6 border-t border-slate-700/20 text-center relative z-20">
+                        <p className={`text-xs opacity-75 ${darkTheme ? 'text-slate-400' : 'text-slate-500'}`}>
+                            &copy; 2026 Permits City &middot; Diseñado por Luis Gomez para el entrenamiento corporativo.
+                        </p>
+                        <div className="flex justify-center gap-4 mt-2 text-xs">
+                            <span className="opacity-60 hover:opacity-100 cursor-pointer transition-opacity">Privacidad</span>
+                            <span className="opacity-60 hover:opacity-100 cursor-pointer transition-opacity">Soporte Operativo</span>
+                        </div>
+                    </footer>
+
+                </div>
+            );
         }
 
-        searchInput.addEventListener('input', (e) => {
-            renderResources(e.target.value);
-        });
-
-        // Initial render
-        renderResources();
-
-const audioBienvenida = document.getElementById('mensaje-bienvenida');
-
-// Función maestra para reproducir
-const forzarReproduccion = async () => {
-    try {
-        // Aseguramos que el audio esté cargado
-        audioBienvenida.muted = false; 
-        await audioBienvenida.play();
-        console.log("Reproducción exitosa");
-        
-        // Limpiamos los eventos para que no se repita
-        ['click', 'touchstart', 'keydown'].forEach(evt => 
-            document.removeEventListener(evt, forzarReproduccion)
-        );
-    } catch (e) {
-        console.log("Reintento fallido, esperando otra interacción...", e);
-    }
-};
-
-// Escuchamos cualquier interacción (clic, toque en móvil o teclado)
-document.addEventListener('click', forzarReproduccion);
-document.addEventListener('touchstart', forzarReproduccion);
-document.addEventListener('keydown', forzarReproduccion);
-
-// Log de depuración: revisa la consola (F12) para ver si el archivo carga
-audioBienvenida.addEventListener('error', (e) => {
-    console.error("Error cargando el audio. Es posible que el link de Drive esté bloqueado.");
-});
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
