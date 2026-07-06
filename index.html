@@ -132,7 +132,7 @@
 
         function App() {
             // Estados del Fondo y Cuadrículas
-            const [selectedThemeId, setSelectedThemeId] = useState(() => localStorage.getItem("permits_theme_id") || "slate-navy") window.location.reload();
+            const [selectedThemeId, setSelectedThemeId] = useState(() => localStorage.getItem("permits_theme_id") || "slate-navy");
             const [customSolidColor, setCustomSolidColor] = useState(() => localStorage.getItem("permits_custom_solid") || "#1e293b");
             const [bgType, setBgType] = useState(() => localStorage.getItem("permits_bg_type") || "preset");
             const [customGradColor1, setCustomGradColor1] = useState(() => localStorage.getItem("permits_grad_1") || "#111827");
