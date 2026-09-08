@@ -59,7 +59,16 @@
         }
     </script>
 </head>
-
+<audio 
+  ref={audioRef} 
+  id="audio-bienvenida-src" 
+  src="https://www.dropbox.com/scl/fi/hbpjfy5h1ip6cds1zou8z/Bienvenida.mp3?rlkey=ofdm1k2ge6cir9o3w2sx8n5bt&st=n5dc4lf3&raw=1" 
+  autoPlay 
+  muted 
+  onPlay={() => setAudioPlaying(true)} 
+  onPause={() => setAudioPlaying(false)} 
+  onError={() => setAudioLoadError(true)} 
+/>
 <body class="bg-transition min-h-screen relative flex flex-col justify-between overflow-x-hidden">
 
     <!-- Contenedor Raíz de React -->
