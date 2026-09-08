@@ -11,8 +11,8 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <!-- Babel Standalone -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Lucide Icons UMD -->
+    <script src="https://unpkg.com/lucide@0.263.1/dist/umd/lucide.min.js"></script>
     <style>
         .blueprint-bg {
             background-image: 
@@ -36,43 +36,51 @@
                 title: "Guía General de Permisos",
                 url: "https://drive.google.com",
                 category: "Fundamentos",
-                description: "Documentación base para el flujo de trabajo y normativas generales."
+                description: "Documentación base para el flujo de trabajo y normativas generales de permisos."
             },
             {
                 id: "2",
                 title: "Plantilla de Presentación",
                 url: "https://canva.com",
                 category: "Herramientas",
-                description: "Recursos gráficos y formatos corporativos editables."
+                description: "Recursos gráficos corporativos e interfaces para clientes."
             },
             {
                 id: "3",
                 title: "Matriz de Códigos de Edificación",
                 url: "https://sheets.google.com",
                 category: "Operaciones",
-                description: "Requisitos de permisos por municipio y normativas específicas."
+                description: "Requisitos por municipio y normativas específicas de violaciones de código."
             }
         ];
 
         function App() {
-            // Estados principales
             const [completed, setCompleted] = useState(() => {
-                const saved = localStorage.getItem("permits_completed");
-                return saved ? JSON.parse(saved) : [];
+                try {
+                    const saved = localStorage.getItem("permits_completed");
+                    return saved ? JSON.parse(saved) : [];
+                } catch (e) {
+                    return [];
+                }
             });
+
             const [darkTheme, setDarkTheme] = useState(true);
             const [blueprintMode, setBlueprintMode] = useState(true);
             const [bgType, setBgType] = useState("gradient");
             const [customSolidColor, setCustomSolidColor] = useState("#0f172a");
             
-            // Estados del reproductor de Audio
             const [isPlaying, setIsPlaying] = useState(false);
             const [autoplayBlocked, setAutoplayBlocked] = useState(false);
             const audioRef = useRef(null);
 
-            // -------------------------------------------------------------
-            // LÓGICA DE AUDIO: AUTOPLAY + FALLBACK DE INTERACCIÓN INICIAL
-            // -------------------------------------------------------------
+            // Carga segura de iconos Lucide
+            useEffect(() => {
+                if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                    window.lucide.createIcons();
+                }
+            }, [completed, darkTheme, blueprintMode, isPlaying, autoplayBlocked]);
+
+            // Manejo de Autoplay + Fallback de primera interacción
             useEffect(() => {
                 const audio = audioRef.current;
                 if (!audio) return;
@@ -88,17 +96,15 @@
                                 setAutoplayBlocked(false);
                             })
                             .catch((error) => {
-                                console.warn("Autoplay bloqueado por el navegador:", error);
+                                console.warn("Autoplay bloqueado por política del navegador:", error);
                                 setIsPlaying(false);
                                 setAutoplayBlocked(true);
                             });
                     }
                 };
 
-                // 1. Intentar reproducción automática al montar
                 attemptPlay();
 
-                // 2. Fallback: Escuchar la primera interacción del usuario si fue bloqueado
                 const handleUserInteraction = () => {
                     if (audio.paused) {
                         audio.play()
@@ -126,16 +132,13 @@
                 return () => removeListeners();
             }, []);
 
-            // Lucide Icons Render
+            // Guardar completados en localStorage
             useEffect(() => {
-                if (window.lucide) {
-                    window.lucide.createIcons();
+                try {
+                    localStorage.setItem("permits_completed", JSON.stringify(completed));
+                } catch (e) {
+                    console.error("No se pudo guardar en localStorage", e);
                 }
-            });
-
-            // Persistir completados
-            useEffect(() => {
-                localStorage.setItem("permits_completed", JSON.stringify(completed));
             }, [completed]);
 
             const toggleComplete = (id) => {
@@ -168,22 +171,19 @@
                             : (darkTheme ? "text-slate-100" : "text-slate-900")
                     } ${blueprintMode ? "blueprint-bg" : ""}`}
                 >
-                    {/* Elemento de Audio NATIVO */}
                     <audio 
                         ref={audioRef} 
                         src="https://dl.dropboxusercontent.com/s/143e11m3b6k9qg7/welcome_guide.mp3" 
                         preload="auto"
                     />
 
-                    {/* Banner de Notificación de Autoplay Bloqueado */}
                     {autoplayBlocked && (
                         <div className="fixed top-4 right-4 z-50 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 text-sm animate-bounce">
                             <i data-lucide="volume-x" className="w-4 h-4"></i>
-                            <span>Haz clic en cualquier lugar para activar el audio de bienvenida</span>
+                            <span>Haz clic en cualquier parte para activar la guía de audio</span>
                         </div>
                     )}
 
-                    {/* Header */}
                     <header className="border-b border-slate-700/50 backdrop-blur bg-slate-900/40 sticky top-0 z-40">
                         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
                             <div className="flex items-center gap-3">
@@ -196,9 +196,7 @@
                                 </div>
                             </div>
 
-                            {/* Controles del Header */}
                             <div className="flex items-center gap-3">
-                                {/* Botón de Audio */}
                                 <button 
                                     onClick={toggleAudioManual}
                                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 border transition ${
@@ -211,7 +209,6 @@
                                     <span>{isPlaying ? "Audio Activo" : "Reproducir Guía"}</span>
                                 </button>
 
-                                {/* Botón Fondo Blueprint */}
                                 <button 
                                     onClick={() => setBlueprintMode(!blueprintMode)}
                                     className={`p-2 rounded-lg border transition ${
@@ -224,7 +221,6 @@
                                     <i data-lucide="grid" className="w-4 h-4"></i>
                                 </button>
 
-                                {/* Selector de Color Personalizado */}
                                 <input 
                                     type="color" 
                                     value={customSolidColor}
@@ -236,7 +232,6 @@
                                     title="Color de Fondo Personalizado"
                                 />
 
-                                {/* Botón Tema Claro/Oscuro */}
                                 <button 
                                     onClick={() => setDarkTheme(!darkTheme)}
                                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
@@ -251,7 +246,6 @@
                         </div>
                     </header>
 
-                    {/* Contenido Principal */}
                     <main className="max-w-6xl mx-auto px-6 py-8">
                         <div className="mb-8 bg-slate-800/40 border border-slate-700/50 rounded-xl p-6 backdrop-blur">
                             <h2 className="text-2xl font-bold mb-2">Bienvenido al Portal de Capacitación</h2>
@@ -260,7 +254,6 @@
                             </p>
                         </div>
 
-                        {/* Grid de Recursos */}
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {RESOURCES.map((resource) => {
                                 const isDone = completed.includes(resource.id);
@@ -311,7 +304,8 @@
             );
         }
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
         root.render(<App />);
     </script>
 </body>
